@@ -82,9 +82,14 @@ export default function Home() {
         <meta name="twitter:description" content={meta.description} />
         <meta name="twitter:image" content={meta.image} />
       </Head>
-      <div className="relative snap-mandatory min-h-screen bg-AAprimary w-full ">
-        {context.sharedState.finishedLoading ? <></> : ShowThisCantBeReached ? <ThisCantBeReached /> : <></>}
-        {context.sharedState.finishedLoading ? <></> : ShowElement ? <Startup /> : <></>}
+      <div className="relative h-screen">
+        <ThisCantBeReached imgPath="/img/titof.jpg"/>
+        <ThisCantBeReached imgPath="/titof.jpg"/>
+        <ThisCantBeReached imgPath="/titof.jpg"/>
+        <ThisCantBeReached imgPath="/titof.jpg"/>
+        <ThisCantBeReached imgPath="/titof.jpg"/>
+        <ThisCantBeReached imgPath="/titof.jpg"/>
+        {/* {context.sharedState.finishedLoading ? <></> : ShowElement ? <Startup /> : <></>}
         <Header finishedLoading={context.sharedState.finishedLoading} sectionsRef={homeRef} />
         <MyName finishedLoading={context.sharedState.finishedLoading} />
         <SocialMediaArround finishedLoading={context.sharedState.finishedLoading} />
@@ -96,7 +101,7 @@ export default function Home() {
           <Footer githubUrl={"https://github.com/hktitof/my-website"} hideSocialsInDesktop={true} />
         ) : (
           <></>
-        )}
+        )} */}
       </div>
     </>
   );
