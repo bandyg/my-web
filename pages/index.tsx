@@ -19,40 +19,57 @@ export default function Home() {
     y: number;
   }
 
-  function getRandomPosition(
+  const data = [
+    { path: '/icon/electron.svg' },
+    { path: '/icon/c++.svg' },
+    { path: '/icon/angular.svg' },
+    { path: '/icon/html.svg' },
+    { path: '/icon/javascript.svg' },
+    { path: '/icon/nodejs.svg' },
+    { path: '/icon/react-native.svg' },
+    { path: '/icon/typescript.svg' },
+  ];
+
+  interface Position {
+    x: number;
+    y: number;
+  }
+
+  function getEvenlyDistributedPosition(
     numPositions: number,
     imageWidth: number,
     circleRadius: number
-  ): Position[] {
-    const positions: Position[] = [];
-    const minDistance = 2 * circleRadius; // Minimum distance between circles
+  ): { x: number; y: number }[] {
+    // Initialize an empty array to store the positions
+    let positions: { x: number; y: number }[] = [];
 
-    while (positions.length < numPositions) {
-      const x = Math.random() * (imageWidth - circleRadius * 2) + circleRadius;
-      const y = Math.random() * (imageWidth - circleRadius * 2) + circleRadius;
-      const newPosition: Position = { x, y };
+    // Calculate the angle increment for each position
+    let angleIncrement = (2 * Math.PI) / numPositions;
 
-      // Check if the new position overlaps with existing positions
-      const isOverlapping = positions.some((position) => {
-        const distance = Math.sqrt(
-          (newPosition.x - position.x) ** 2 + (newPosition.y - position.y) ** 2
-        );
-        return distance < minDistance;
-      });
+    // Calculate the distance from the center of the circle for each position
+    let distance = circleRadius - imageWidth / 2;
 
-      if (!isOverlapping) {
-        positions.push(newPosition);
-      }
+    // Loop through each position and calculate the x and y coordinates
+    for (let i = 0; i < numPositions; i++) {
+      let angle = i * angleIncrement;
+      let x = Math.cos(angle) * distance;
+      let y = Math.sin(angle) * distance;
+      positions.push({ x, y });
     }
 
+    // Return the array of positions
     return positions;
   }
-  const numPositions = 10;
-  const imageWidth = 500;
-  const circleRadius = 50;
 
-  const positions = getRandomPosition(numPositions, imageWidth, circleRadius);
+  const imageWidth = 100;
+  const circleRadius = 400;
 
+  const positions = getEvenlyDistributedPosition(
+    data.length,
+    imageWidth,
+    circleRadius
+  );
+  console.log(positions);
   console.log('Portfolio Rendered...');
   const meta = {
     title: 'Abdellatif Anaflous - Software Engineer',
@@ -81,25 +98,13 @@ export default function Home() {
         <meta name="twitter:image" content={meta.image} />
       </Head>
       <div className="relative h-screen">
-        <ThisCantBeReached imgPath="/img/titof.jpg" />
-        <ThisCantBeReached imgPath="/titof.jpg" />
-        <ThisCantBeReached imgPath="/titof.jpg" />
-        <ThisCantBeReached imgPath="/titof.jpg" />
-        <ThisCantBeReached imgPath="/titof.jpg" />
-        <ThisCantBeReached imgPath="/titof.jpg" />
-        {/* {context.sharedState.finishedLoading ? <></> : ShowElement ? <Startup /> : <></>}
-        <Header finishedLoading={context.sharedState.finishedLoading} sectionsRef={homeRef} />
-        <MyName finishedLoading={context.sharedState.finishedLoading} />
-        <SocialMediaArround finishedLoading={context.sharedState.finishedLoading} />
-        {context.sharedState.finishedLoading ? <AboutMe ref={aboutRef} /> : <></>}
-        {context.sharedState.finishedLoading ? <WhereIHaveWorked /> : <></>}
-        {context.sharedState.finishedLoading ? <SomethingIveBuilt /> : <></>}
-        {context.sharedState.finishedLoading ? <GetInTouch /> : <></>}
-        {context.sharedState.finishedLoading ? (
-          <Footer githubUrl={"https://github.com/hktitof/my-website"} hideSocialsInDesktop={true} />
-        ) : (
-          <></>
-        )} */}
+        {data.map((item, index) => (
+          <ThisCantBeReached
+            key={index}
+            image={item.path}
+            position={positions.length ? positions[index] : undefined} // Check if positions exist
+          />
+        ))}
       </div>
     </>
   );

@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { motion } from '../../../node_modules/framer-motion/dist/framer-motion';
 import Image from 'next/image';
 
-export default function ThisCantBeReached({ imgPath }) {
+export default function ThisCantBeReached({ image, position }) {
   const [isAnimated, setIsAnimated] = useState(true);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   const getRandomPosition = () => {
     const { width, height } = windowSize;
-    const randomX = Math.random() * (width/2-200) * (Math.random()>0.5? 1: -1); // Adjust the value (200) according to your needs
-    const randomY = Math.random() * (height/2-200) * (Math.random()>0.5? 1: -1); // Adjust the value (200) according to your needs
-    console.log(`to: ${JSON.stringify({ x: randomX, y: randomY })}`)
+    const randomX =
+      Math.random() * (width / 2 - 200) * (Math.random() > 0.5 ? 1 : -1); // Adjust the value (200) according to your needs
+    const randomY =
+      Math.random() * (height / 2 - 200) * (Math.random() > 0.5 ? 1 : -1); // Adjust the value (200) according to your needs
+    console.log(`to: ${JSON.stringify({ x: randomX, y: randomY })}`);
     return { x: randomX, y: randomY };
   };
 
@@ -18,7 +20,7 @@ export default function ThisCantBeReached({ imgPath }) {
     const { width, height } = windowSize;
     const randomX = width / 2; // Adjust the value (200) according to your needs
     const randomY = height / 2; // Adjust the value (200) according to your needs
-    console.log(`from: ${JSON.stringify({ x: randomX, y: randomY })}`)
+    console.log(`from: ${JSON.stringify({ x: randomX, y: randomY })}`);
     return { x: randomX, y: randomY };
   };
 
@@ -66,15 +68,15 @@ export default function ThisCantBeReached({ imgPath }) {
     <motion.div
       initial={{ opacity: 0, scale: 0 }}
       animate={
-        isAnimated ? { opacity: 1, scale: 1, ...getRandomPosition() } : {}
+        isAnimated ? { opacity: 1, scale: 1, x: position.x, y: position.y } : {}
       }
       transition={{ type: 'spring', stiffness: 200, duration: 5 }}
       onAnimationComplete={handleAnimationComplete}
       className="absolute left-1/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
       style={{ color: getRandomColor() }}
     >
-      <h1 className="text-4xl font-bold">{imgPath}</h1>
-      <Image src={imgPath} alt="Animated Image" width={200} height={200} />
+      <h1 className="text-4xl font-bold">{image}</h1>
+      <Image src={image} alt="Animated Image" width={200} height={200} />
     </motion.div>
   );
 }
